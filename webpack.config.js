@@ -1,3 +1,4 @@
+const CopyPlugin = require('copy-webpack-plugin');
 
 var path = require("path");
 module.exports = {
@@ -15,5 +16,11 @@ module.exports = {
         compress:false,
         port:8080,
         hot:true
-    }
+    },
+    plugins: [
+        new CopyPlugin([
+          { from: 'bower_components/gif.js/dist/gif.worker.js', to: './' },
+          { from: 'bower_components/gif.js/dist/*.map', toType:"template", to: './[name].[ext]' }
+        ])
+    ]
 }
