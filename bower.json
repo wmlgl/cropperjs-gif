@@ -1,0 +1,27 @@
+{
+  "name": "easy-gif-js",
+  "authors": [
+    "wmlgl <qq4014@126.com>"
+  ],
+  "description": "easy to use gif.js and gifuct-js",
+  "main": "src/index.js",
+  "keywords": [
+    "gif",
+    "encode",
+    "and",
+    "decode"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/wmlgl/easy-gif-js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "gifuct-js": "^1.0.0",
+    "gif.js": "^0.2.0"
+  }
+}

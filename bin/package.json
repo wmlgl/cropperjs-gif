@@ -1,0 +1,22 @@
+{
+  "name": "easy-gif-js",
+  "version": "1.0.0",
+  "description": "easy to use gif.js and gifuct-js",
+  "main": "src/index.js",
+  "dependencies": {
+    "extends": "0.0.4",
+    "webpack": "^4.30.0"
+  },
+  "devDependencies": {
+    "exports-loader": "^0.7.0",
+    "webpack-cli": "^3.3.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development --watch --output-library-target window -d ",
+    "build": "webpack --mode production --output-library-target window"
+  },
+  "keywords": [
+    "gif"
+  ]
+}

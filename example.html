@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <title>easy-gif-js</title>
+  </head>
+  <body>
+    <div>GIF encoded: <br/><img id="preview" style="border:1px solid blue"/></div>
+    <div>GIF decoded: <br/><img id="perImage" style="border:1px solid blue"/></div>
+    <div></div>
+    <div>example: </div>
+    <code>
+        <pre id="code"></pre>
+    </code>
+  </body>
+  <script>
+    window.onerror = function(message, source, lineno, colno, error){
+        alert(message+','+source+','+lineno+','+colno+','+error);
+    };
+  </script>
+  <script src="dist/main.js?6"></script>
+  <script>
+    var code = function example(){
+
+
+        var URL = window.URL||window.webkitURL;
+        var SIZE = 100;
+        var increaseCanvas = (function(){
+            var i = 0;
+            return function(){
+                var canvas = document.createElement('canvas');
+                canvas.width = SIZE;
+                canvas.height = SIZE;
+                var g = canvas.getContext("2d");
+                
+                g.fillStyle = '#fff';
+                g.font = "30px 黑体";
+                g.fillRect(0,0,canvas.width,canvas.height);
+                g.fillStyle = '#000';
+                g.fillText(i, 50, 50);
+                i++;
+                return canvas;
+            };
+        })();
+        
+        var createGifImg = function(callback){
+            var encoder = EasyGif.encoder({
+                workers: 2,
+                quality: 10,
+                workerScript: "dist/gif.worker.js",
+                width: SIZE,
+                height: SIZE
+            });
+            encoder.addFrame(increaseCanvas(), {delay:100});
+            encoder.addFrame(increaseCanvas(), {delay:100});
+            encoder.addFrame(increaseCanvas(), {delay:100});
+            encoder.on('finished', function(blob){
+                document.all.preview.src = URL.createObjectURL(blob);
+                callback && callback(document.all.preview, blob)
+            })
+            encoder.render();
+        }
+
+        function convertBlobToArraybuffer(blob, callback) {
+            var fr = new FileReader();
+            fr.readAsArrayBuffer(blob);
+            fr.onload = function(event){
+                callback(event.target.result);
+            };
+        }
+
+        function drawFrame(img, frame){
+            var canvas = document.createElement('canvas');
+            canvas.width = SIZE;
+            canvas.height = SIZE;
+            var g = canvas.getContext("2d");
+            var imgData = EasyGif.frameToImageData(g, frame);
+            g.putImageData(imgData, frame.dims.left, frame.dims.top);
+            img.src = canvas.toDataURL("image/png");
+        }
+
+        function decodeGif(img, blob) {
+            convertBlobToArraybuffer(blob, function(buffer){
+                var decoder = EasyGif.decoder(buffer);
+                var frames = decoder.decompressFrames(false);
+                var img = document.all.perImage;
+                for(var i=0;i<frames.length;i++) {
+                    var preview = img.cloneNode(true);
+                    drawFrame(preview, frames[i]);
+                    img.parentElement.insertBefore(preview, img);
+                }
+                img.parentElement.removeChild(img);
+            })
+        }
+
+        createGifImg(decodeGif);
+    }
+    document.all.code.innerText = code.toString();
+    code();
+  </script>
+</html>
