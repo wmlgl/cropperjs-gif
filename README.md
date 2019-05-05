@@ -10,7 +10,7 @@ Fix some older browser error:
 
 ### demo
 
-    see [/example.html](https://wmlgl.github.io/easy-gif-js/example.html)
+    see [example.html](https://wmlgl.github.io/easy-gif-js/example.html)
 
 
 ### build
