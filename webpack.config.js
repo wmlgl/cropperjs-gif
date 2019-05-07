@@ -35,11 +35,11 @@ module.exports = (env, argv) => {
       console.log('in development mode');
       config.optimization.minimize = false;
       config.optimization.minimizer = [];
-      config.devtool = 'source-map';
     }
     
     if (argv.mode === 'production') {
         console.log('in production mode');
+        config.devtool = 'source-map';
       //...
     }
   
