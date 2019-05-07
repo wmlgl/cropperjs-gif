@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <title>Cropperjs integrated easy-gif-js</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 minimal-ui">
+  </head>
+  <body>
+    <div style="width:200px;height:200px;float:left;overflow: hidden;">
+        <img id="gif" src="test.gif"/>
+    </div>
+    <div style="width:200px;height:200px;overflow: hidden;border: 1px solid blue">
+        <img id="preview" style="max-width:100%"/>
+    </div>
+    <button onclick="cropGif()">crop</button>
+    <div id="tmp"></div>
+    <pre><code id="code"></code></pre>
+  </body>
+  <script>
+    window.onerror = function(message, source, lineno, colno, error){
+        alert(message+','+source+','+lineno+','+colno+','+error);
+    };
+  </script>
+  <script src="https://cdn.bootcss.com/cropperjs/1.5.1/cropper.min.js"></script>
+  <script src="https://cdn.bootcss.com/es6-promise/4.1.1/es6-promise.min.js"></script>
+  <link href="https://cdn.bootcss.com/cropperjs/1.5.1/cropper.min.css" rel="stylesheet">
+  <script src="../dist/cropperjs-gif-all.js"></script>
+  <script>
+    if(!window.Promise) {
+        window.Promise = ES6Promise;
+    }
+    var code = function example(){
+        var URL = window.URL || window.webkitURL;
+        var gifImg = document.all.gif;
+        var previewImg = document.all.preview;
+        var tmp = document.all.tmp;
+
+        var cropper = new Cropper(gifImg, {
+            dragMode: 'move',
+            aspectRatio: 16/9,
+            autoCrop: true,
+            autoCropArea: 1,
+            cropBoxResizable: false,
+            cropBoxMovable: false,
+            ready: function(){
+                cropper.rotate(10);
+            }
+        });
+
+        function cropGif(){
+            CropperjsGif.crop({
+                encoder: {
+                    workers: 2,
+                    quality: 10,
+                    workerScript: "../dist/gif.worker.js",
+                },
+                src: gifImg.src,
+                background: '#fff',
+                onerror: function(code, error){
+                    console.log(code, error)
+                }
+            },
+            cropper,
+            function(blob){
+                previewImg.src = URL.createObjectURL(blob);
+            });
+        }
+
+        window.cropGif = cropGif;
+        window.cropper = cropper;
+    }
+    document.all.code.innerText = code.toString();
+
+    window.onload = code;
+  </script>
+</html>

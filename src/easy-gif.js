@@ -19,6 +19,15 @@ var EasyGif = {
             }
             return data;
         }
+        var _addFrame = GIF.prototype.addFrame;
+        GIF.prototype.addFrame = function(){
+            var ret = _addFrame.apply(this, arguments);
+            var lastFrame = this.frames[this.frames.length - 1];
+            if(lastFrame && lastFrame.data && /CanvasPixelArray/.test(Object.prototype.toString.call(lastFrame.data))){
+                lastFrame.data = EasyGif.toUint8Array(lastFrame.data);
+            }
+            return ret;
+        };
 
         // 将代码中的"new Blob"替换成 "BlobCreator.createBlob"
         var sourceCode = GIF.prototype.finishRendering.toString();
@@ -26,16 +35,16 @@ var EasyGif = {
         GIF.prototype.finishRendering = new Function('createBlob', 'return (' + sourceCode + ')')(BlobCreator.createBlob);
     },
     toUint8Array: function(data){
-        var uintArray = new Uint8Array(data.length);
-        for(var i=0,l=data.length; i<l; i++) {
-            uintArray[i] = data[i];
-        }
-        return uintArray;
+        // var uintArray = new Uint8Array(data.length);
+        // for(var i=0,l=data.length; i<l; i++) {
+        //     uintArray[i] = data[i];
+        // }
+        // return uintArray;
+        return new Uint8Array(data);
     },
     frameToImageData: function(ctx, frame) {
         var totalPixels = frame.pixels.length;
         var imgData = ctx.createImageData(frame.dims.width, frame.dims.height);
-        // var patchData = window.Uint8ClampedArray ? new Uint8ClampedArray(totalPixels * 4) : imgData.data;
 		var patchData = imgData.data;
 		for(var i=0; i<totalPixels; i++){
 			var pos = i * 4;
@@ -56,4 +65,4 @@ var EasyGif = {
     }
 };
 EasyGif.fixCompatibility();
-export default EasyGif;
+export { EasyGif }

@@ -1,3 +1,6 @@
+#cropperjs-gif
+support [cropperjs](https://github.com/fengyuanchen/cropperjs) to crop gif
+
 # easy-gif-js
 simple wrapper for [gif.js](https://github.com/jnordberg/gif.js) and [gifuct-js](https://github.com/matt-way/gifuct-js)
 
@@ -10,7 +13,8 @@ Fix some older browser error:
 
 ### demo
 
-see [/example.html](https://wmlgl.github.io/easy-gif-js/example.html)
+[/demo/index.html](https://wmlgl.github.io/easy-gif-js/demo/index.html)  
+[/demo/gif.html](https://wmlgl.github.io/easy-gif-js/demo/gif.html)
 
 
 ### build

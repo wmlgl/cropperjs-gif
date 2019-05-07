@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>easy-gif-js</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0 minimal-ui">
   </head>
   <body>
     <div>GIF encoded: <br/><img id="preview" style="border:1px solid blue"/></div>
@@ -16,10 +17,9 @@
         alert(message+','+source+','+lineno+','+colno+','+error);
     };
   </script>
-  <script src="dist/main.js?6"></script>
+  <script src="../dist/easy-gif.js"></script>
   <script>
     var code = function example(){
-
 
         var URL = window.URL||window.webkitURL;
         var SIZE = 100;
@@ -42,10 +42,11 @@
         })();
         
         var createGifImg = function(callback){
-            var encoder = EasyGif.encoder({
+            // encoder: gif.js
+            var encoder = EasyGif.encoder({ // gif.js's options
                 workers: 2,
                 quality: 10,
-                workerScript: "dist/gif.worker.js",
+                workerScript: "../dist/gif.worker.js",
                 width: SIZE,
                 height: SIZE
             });
@@ -79,6 +80,7 @@
 
         function decodeGif(img, blob) {
             convertBlobToArraybuffer(blob, function(buffer){
+                // decoder: gifunct.js
                 var decoder = EasyGif.decoder(buffer);
                 var frames = decoder.decompressFrames(false);
                 var img = document.all.perImage;

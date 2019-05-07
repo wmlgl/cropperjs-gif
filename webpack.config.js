@@ -1,14 +1,20 @@
 const CopyPlugin = require('copy-webpack-plugin');
 
 var path = require("path");
-module.exports = {
-    entry:'./src/index.js',
+var config = {
+    entry: {
+        'cropperjs-gif-all' : './src/index.js',
+        'cropperjs-gif' : './src/cropperjs-gif.js',
+        'easy-gif' : './src/easy-gif.js'
+    },
+    optimization: {},
     output:{
-        filename:'main.js',
+        filename:'[name].js',
         path:path.resolve(__dirname,'dist'),
-        publicPath:'/',                       //公共路径，从内存中读取
+        publicPath:'/dist/',                       //公共路径，从内存中读取
         library: "", // string,
-        libraryTarget: "umd", // 通用模块定义    // 导出库(exported library)的类型
+        libraryTarget: "window",
+        // libraryTarget: "umd", // 通用模块定义    // 导出库(exported library)的类型
     },
     devServer:{
         contentBase:'./',
@@ -19,8 +25,23 @@ module.exports = {
     },
     plugins: [
         new CopyPlugin([
-          { from: 'bower_components/gif.js/dist/gif.worker.js', to: './' },
-          { from: 'bower_components/gif.js/dist/*.map', toType:"template", to: './[name].[ext]' }
+          { from: 'bower_components/gif.js/dist/gif.worker.*', toType:"template", to: './[name].[ext]' }
         ])
     ]
 }
+module.exports = (env, argv) => {
+
+    if (argv.mode === 'development') {
+      console.log('in development mode');
+      config.optimization.minimize = false;
+      config.optimization.minimizer = [];
+      config.devtool = 'source-map';
+    }
+    
+    if (argv.mode === 'production') {
+        console.log('in production mode');
+      //...
+    }
+  
+    return config;
+  };

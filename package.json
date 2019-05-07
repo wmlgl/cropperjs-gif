@@ -1,7 +1,15 @@
 {
-  "name": "easy-gif-js",
+  "name": "cropperjs-gif",
   "version": "1.0.0",
-  "description": "easy to use gif.js and gifuct-js",
+  "description": "support cropperjs to crop gif, easy to use gif.js and gifuct-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wmlgl/cropperjs-gif"
+  },
+  "author": {
+    "name": "wmlgl",
+    "email": "qq4014@126.com"
+  },
   "main": "src/index.js",
   "dependencies": {
     "extends": "0.0.4",
@@ -14,10 +22,17 @@
     "webpack-dev-server": "^3.3.1"
   },
   "scripts": {
-    "dev": "webpack-dev-server --mode development",
+    "serve": "webpack-dev-server --mode development --watch",
+    "dev": "webpack --mode development",
     "build": "webpack --mode production"
   },
   "keywords": [
-    "gif"
-  ]
+    "cropper",
+    "cropperjs",
+    "gif",
+    "encode",
+    "decode"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/wmlgl/cropperjs-gif"
 }
