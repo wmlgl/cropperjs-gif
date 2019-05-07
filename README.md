@@ -1,4 +1,4 @@
-#cropperjs-gif
+# cropperjs-gif
 support [cropperjs](https://github.com/fengyuanchen/cropperjs) to crop gif
 
 # easy-gif-js
