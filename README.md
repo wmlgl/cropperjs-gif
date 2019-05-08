@@ -13,8 +13,8 @@ Fix some older browser error:
 
 ### demo
 
-[/demo/index.html](https://wmlgl.github.io/easy-gif-js/demo/index.html)  
-[/demo/gif.html](https://wmlgl.github.io/easy-gif-js/demo/gif.html)
+[easy-gif-js](https://wmlgl.github.io/cropperjs-gif/demo/index.html)  
+[cropper-gif](https://wmlgl.github.io/cropperjs-gif/demo/gif.html)
 
 
 ### build
