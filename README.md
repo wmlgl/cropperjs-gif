@@ -22,3 +22,6 @@ Fix some older browser error:
     1.npm install bower
     2.npx bower install
     3.npm run build
+
+### license
+    MIT
