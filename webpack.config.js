@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 
 var path = require("path");
@@ -26,7 +27,8 @@ var config = {
     plugins: [
         new CopyPlugin([
           { from: 'bower_components/gif.js/dist/gif.worker.*', toType:"template", to: './[name].[ext]' }
-        ])
+        ]),
+        new webpack.BannerPlugin('Project: https://github.com/wmlgl/cropperjs-gif, license: MIT')
     ]
 }
 module.exports = (env, argv) => {
