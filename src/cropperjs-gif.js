@@ -21,8 +21,8 @@ function GifCropper(options) {
     this.height = null;
     this.width = null;
 
-    document.body.insertBefore(this.containerCanvas, document.body.firstChild);
-    document.body.insertBefore(this.convertorCanvas, document.body.firstChild);
+    // document.body.insertBefore(this.containerCanvas, document.body.firstChild);
+    // document.body.insertBefore(this.convertorCanvas, document.body.firstChild);
 }
 
 var ERROR = {
