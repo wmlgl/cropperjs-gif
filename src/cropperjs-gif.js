@@ -21,8 +21,8 @@ function GifCropper(options) {
     this.height = null;
     this.width = null;
 
-    // document.body.insertBefore(this.containerCanvas, document.body.firstChild);
-    // document.body.insertBefore(this.convertorCanvas, document.body.firstChild);
+    document.body.insertBefore(this.containerCanvas, document.body.firstChild);
+    document.body.insertBefore(this.convertorCanvas, document.body.firstChild);
 }
 
 var ERROR = {
@@ -40,16 +40,37 @@ GifCropper.prototype.ERROR = ERROR;
 GifCropper.prototype.crop = function(cropper, callback){
     var cropArea = cropper.getData();
     var that = this;
+    var limitRatio = this.calcLimitRatio(cropArea);
+    var limitCropArea = {
+        x: Math.round(cropArea.x * limitRatio),
+        y: Math.round(cropArea.y * limitRatio),
+        width: Math.round(cropArea.width * limitRatio),
+        height: Math.round(cropArea.height * limitRatio),
+        scaleX: cropArea.scaleX * limitRatio,
+        scaleY: cropArea.scaleY * limitRatio,
+        rotate: cropArea.rotate
+    };
 
     this.readAndDecodeGif(function(){
-        that.setupCanvas(cropArea);
-        that.cropFrame(0, cropArea, [], function(result) {
-            that.saveGif(cropArea, result, function(cropBlob){
+        that.setupCanvas(limitCropArea, limitRatio);
+        that.cropFrame(0, limitCropArea, [], function(result) {
+            that.saveGif(limitCropArea, result, function(cropBlob){
                 callback && callback(cropBlob);
             });
         });
     });
 }
+/**
+ * calculate ratio of output size limit to smaller then maxWidth and maxHeight 
+ */
+GifCropper.prototype.calcLimitRatio = function(cropArea){
+    var xRatio = this.options.maxWidth / cropArea.width;
+    var yRatio = this.options.maxHeight / cropArea.height;
+    if(xRatio < 1 || yRatio < 1) {
+        return Math.min(xRatio, yRatio);
+    }
+    return 1;
+};
 /**
  * get gif width and height, decode gif to frame array
  */
@@ -94,19 +115,19 @@ GifCropper.prototype.decode = function(arraybuffer, callback){
 /**
  * setup canvas size
  */
-GifCropper.prototype.setupCanvas = function(cropArea) {
+GifCropper.prototype.setupCanvas = function(cropArea, limitRatio) {
     // 计算图片旋转后的尺寸和切剪后的尺寸， 取最大的一方作为container的尺寸
     var radian = Math.PI/180*cropArea.rotate;
-    var rotatedBoxWidth = this.width*Math.cos(radian)+this.height*Math.sin(radian);
-    var rotatedBoxHeight = this.height*Math.cos(radian)+this.width*Math.sin(radian);
+    var rotatedBoxWidth = (this.width*Math.cos(radian)+this.height*Math.sin(radian)) * limitRatio;
+    var rotatedBoxHeight = (this.height*Math.cos(radian)+this.width*Math.sin(radian)) * limitRatio;
     
     this.offsetX = -Math.min(cropArea.x, 0);
     this.offsetY = -Math.min(cropArea.y, 0);
     this.containerCenterX = this.offsetX + rotatedBoxWidth / 2;
     this.containerCenterY = this.offsetY + rotatedBoxHeight / 2;
 
-    this.containerCanvas.width = Math.max(this.offsetX + rotatedBoxWidth, this.offsetX + cropArea.width);
-    this.containerCanvas.height = Math.max(this.offsetY + rotatedBoxHeight, this.offsetY + cropArea.height);
+    this.containerCanvas.width = Math.max(this.offsetX + rotatedBoxWidth, this.offsetX + cropArea.width, cropArea.x + cropArea.width);
+    this.containerCanvas.height = Math.max(this.offsetY + rotatedBoxHeight, this.offsetY + cropArea.height, cropArea.y + cropArea.height);
     this.containerCtx.clearRect(0, 0, this.containerCanvas.width, this.containerCanvas.height);
 
     this.convertorCanvas.width = this.width;

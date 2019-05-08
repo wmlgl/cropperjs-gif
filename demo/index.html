@@ -7,7 +7,7 @@
     <div style="width:200px;height:200px;float:left;overflow: hidden;">
         <img id="gif" src="test.gif"/>
     </div>
-    <div style="width:200px;height:200px;overflow: hidden;border: 1px solid blue">
+    <div style="width:200px;height:200px;overflow: hidden;border: 1px solid blue;display: flex;align-items: center;">
         <img id="preview" style="max-width:100%"/>
     </div>
     <button onclick="cropGif()">crop</button>
@@ -54,6 +54,8 @@
                 },
                 src: gifImg.src,
                 background: '#fff',
+                maxWidth: 600,
+                maxHeight: 600,
                 onerror: function(code, error){
                     console.log(code, error)
                 }
