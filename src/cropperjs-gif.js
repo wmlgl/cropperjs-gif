@@ -24,7 +24,7 @@ function GifCropper(options) {
     if(options.debug) {
         nextTick = function(callback){
             setTimeout(callback, 500);
-        }
+        };
         this.containerCanvas.style.width="200px";
         this.convertorCanvas.style.width="200px";
         document.body.insertBefore(this.containerCanvas, document.body.firstChild);
@@ -202,7 +202,7 @@ GifCropper.prototype.saveGif = function(cropArea, imgDataList, callback){
         }
         encoder.on('finished', function(blob){
             callback && callback(blob);
-            
+
             encoder.abort();
             var workers = encoder.freeWorkers;
             for (var i = 0; i < workers.length; i++) {

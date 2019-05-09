@@ -22,7 +22,18 @@ var config = {
         host:'0.0.0.0',
         compress:false,
         port:8080,
-        hot:true
+        hot:true,
+        setup: function(app) {
+            app.post('/post/**', function(req, res) {
+                req.on('data', function(chunk){
+                    console.log('post length:' + chunk.length);
+                });
+                req.on('end', function(){
+                    console.log('post end');
+                    res.end("ok");
+                });
+            });
+       }
     },
     plugins: [
         new CopyPlugin([
