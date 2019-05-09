@@ -202,6 +202,13 @@ GifCropper.prototype.saveGif = function(cropArea, imgDataList, callback){
         }
         encoder.on('finished', function(blob){
             callback && callback(blob);
+            
+            encoder.abort();
+            var workers = encoder.freeWorkers;
+            for (var i = 0; i < workers.length; i++) {
+                var worker = workers[i];
+                worker.terminate();
+            }
         });
         encoder.render();
     } catch (error) {
