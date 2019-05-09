@@ -5,7 +5,8 @@
   </head>
   <body>
     <div style="width:200px;height:200px;float:left;overflow: hidden;">
-        <img id="gif" src="test.gif"/>
+        <!-- <img id="gif" src="test.gif"/> -->
+        <img id="gif" src="lajiao.gif"/>
     </div>
     <div style="width:200px;height:200px;overflow: hidden;border: 1px solid blue;display: flex;align-items: center;">
         <img id="preview" style="max-width:100%"/>
@@ -47,6 +48,7 @@
 
         function cropGif(){
             CropperjsGif.crop({
+                // debug: true,
                 encoder: {
                     workers: 2,
                     quality: 10,

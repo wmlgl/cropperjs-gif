@@ -21,8 +21,15 @@ function GifCropper(options) {
     this.height = null;
     this.width = null;
 
-    // document.body.insertBefore(this.containerCanvas, document.body.firstChild);
-    // document.body.insertBefore(this.convertorCanvas, document.body.firstChild);
+    if(options.debug) {
+        nextTick = function(callback){
+            setTimeout(callback, 500);
+        }
+        this.containerCanvas.style.width="200px";
+        this.convertorCanvas.style.width="200px";
+        document.body.insertBefore(this.containerCanvas, document.body.firstChild);
+        document.body.insertBefore(this.convertorCanvas, document.body.firstChild);
+    }
 }
 
 var ERROR = {
@@ -146,7 +153,7 @@ GifCropper.prototype.cropFrame = function(frameIndex, cropArea, result, callback
     this.containerCtx.translate(this.containerCenterX, this.containerCenterY);
     this.containerCtx.rotate(cropArea.rotate*Math.PI/180);
     this.containerCtx.scale(cropArea.scaleX, cropArea.scaleY);
-    this.containerCtx.drawImage(this.drawImgDataToCanvas(frame, imgData), -imgData.width/2, -imgData.height/2);
+    this.containerCtx.drawImage(this.drawImgDataToCanvas(frame, imgData), -this.convertorCanvas.width/2, -this.convertorCanvas.height/2);
     this.containerCtx.restore();
 
     if(frameIndex == 0 && this.containerCtx.globalCompositeOperation) {
