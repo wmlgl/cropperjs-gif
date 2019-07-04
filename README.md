@@ -22,6 +22,11 @@ Fix some older browser error:
     1.npm install bower
     2.npx bower install
     3.npm run build
+    
+### debug
+    
+    1.npm run serve
+    2.access [cropperjs-gif](http://127.0.0.1/demo/index.html) [easy-gif-js](http://127.0.0.1/demo/gif.html)
 
 ### license
     MIT
