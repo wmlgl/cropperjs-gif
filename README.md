@@ -26,7 +26,7 @@ Fix some older browser error:
 ### debug
     
     1.npm run serve
-    2.access [cropperjs-gif](http://127.0.0.1/demo/index.html) [easy-gif-js](http://127.0.0.1/demo/gif.html)
+    2.access [cropperjs-gif] (http://127.0.0.1/demo/index.html) [easy-gif-js] (http://127.0.0.1/demo/gif.html)
 
 ### license
     MIT
