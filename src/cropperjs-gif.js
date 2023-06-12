@@ -125,8 +125,8 @@ GifCropper.prototype.decode = function(arraybuffer, callback){
 GifCropper.prototype.setupCanvas = function(cropArea, limitRatio) {
     // 计算图片旋转后的尺寸和切剪后的尺寸， 取最大的一方作为container的尺寸
     var radian = Math.PI/180*cropArea.rotate;
-    var rotatedBoxWidth = (this.width*Math.cos(radian)+this.height*Math.sin(radian)) * limitRatio;
-    var rotatedBoxHeight = (this.height*Math.cos(radian)+this.width*Math.sin(radian)) * limitRatio;
+    var rotatedBoxWidth = (this.width*Math.abs(Math.cos(radian))+this.height*Math.abs(Math.sin(radian))) * limitRatio;
+    var rotatedBoxHeight = (this.height*Math.abs(Math.cos(radian))+this.width*Math.abs(Math.sin(radian))) * limitRatio;
     
     this.offsetX = -Math.min(cropArea.x, 0);
     this.offsetY = -Math.min(cropArea.y, 0);
